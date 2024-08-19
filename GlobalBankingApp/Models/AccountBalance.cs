@@ -13,7 +13,7 @@
 
         public bool Withdraw(decimal amount, Currency currency)
         {
-            decimal convertedAmount = GlobalBankingApp.Utilities.Conversion.CanadianDollars(amount, currency);
+            decimal convertedAmount = Utilities.Conversion.ToCAD(amount, currency);
 
             if (convertedAmount <= Balance)
             {
@@ -26,7 +26,7 @@
 
         public void Deposit(decimal amount, Currency currency)
         {
-            decimal convertedAmount = GlobalBankingApp.Utilities.Conversion.CanadianDollars(amount, currency);
+            decimal convertedAmount = Utilities.Conversion.ToCAD(amount, currency);
             Balance += convertedAmount;
         }
     }

@@ -5,7 +5,6 @@ namespace GlobalBankingApp.Controllers
 {
     public class HomeController : Controller
     {
-        private static int _selectedAccount;
 
         public enum AccountActionType
         {
@@ -21,12 +20,20 @@ namespace GlobalBankingApp.Controllers
 
         public ActionResult Index()
         {
+            var selectedAccount = TempData.Peek("SelectedAccount") as int? ?? 0;
+
             var model = new BankDetailsViewModel
             {
                 AccountHolderName = "John Smith",
                 AccountNumber = _accountBalances,
-                SelectedAccount = _selectedAccount
+                SelectedAccount = selectedAccount
             };
+
+            if (TempData.ContainsKey("ErrorMessage"))
+            {
+                ViewBag.ErrorMessage = TempData["ErrorMessage"];
+            }
+
             return View(model);
         }
 
@@ -40,7 +47,7 @@ namespace GlobalBankingApp.Controllers
                 return View("AccountNotFound");
             }
 
-            _selectedAccount = account.Number;
+            TempData["SelectedAccount"] = account.Number;
 
             if (actionType == AccountActionType.Deposit)
             {
@@ -51,7 +58,8 @@ namespace GlobalBankingApp.Controllers
                 bool success = account.Withdraw(amount, currency);
                 if (!success)
                 {
-                    return View("InsufficientFunds");
+                    TempData["ErrorMessage"] = "Insufficient funds";
+                    return RedirectToAction("Index");
                 }
             }
             else

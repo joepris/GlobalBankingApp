@@ -4,7 +4,7 @@ namespace GlobalBankingApp.Utilities
 {
     public static class Conversion
     {
-        public static decimal CanadianDollars(decimal amount, Currency currency)
+        public static decimal ToCAD(decimal amount, Currency currency)
         {
             switch (currency)
             {

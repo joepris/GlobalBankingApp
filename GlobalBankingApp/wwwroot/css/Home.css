@@ -1,0 +1,87 @@
+﻿
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    background: white;
+    border-radius: 8px;
+}
+
+#welcome-section {
+    text-align: center;
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+    #welcome-section h4 {
+        margin: 8px 0;
+    }
+
+.account-info,
+.balance-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.balance-info {
+    margin-top: 8px;
+    margin-bottom: 15px;
+}
+
+
+
+    .form-group label, .balance-info label {
+        display: block;
+        margin-bottom: 5px
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 10px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+
+.logout-link {
+    color: #6cbf84;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+    .logout-link:hover {
+        text-decoration: underline;
+    }
+
+#account {
+    width: 50%;
+}
+
+#amount {
+    width: 75%;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    padding: 2px;
+}
