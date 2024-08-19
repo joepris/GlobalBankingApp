@@ -11,16 +11,17 @@ namespace GlobalBankingApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string username)
+        public IActionResult Index(string email, string password)
         {
-            if (!string.IsNullOrEmpty(username))
+            // For now, accept any email and password
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
                 return RedirectToAction("Index", "Home");
             }
-
-            ViewBag.ErrorMessage = "Please enter a username.";
+            ViewBag.ErrorMessage = "Invalid login attempt.";
             return View();
         }
+
     }
 }
 

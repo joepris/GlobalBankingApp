@@ -1,8 +1,176 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using System.Text.Json
+@model GlobalBankingApp.Controllers.BankDetailsViewModel
+@{
+    ViewData["Title"] = "Banking Details";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .main-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 93%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .account-info,
+        .balance-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            .form-group input,
+            .form-group select {
+                width: 90%;
+                padding: 10px;
+                border-radius: 4px;
+                border: 1px solid #ddd;
+            }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-primary,
+        .btn-success {
+            width: 48%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #ff6f61;
+        }
+
+        .btn-success {
+            background-color: #6cbf84;
+        }
+
+        .btn-primary:hover {
+            background-color: #e55b4d;
+        }
+
+        .btn-success:hover {
+            background-color: #5ab871;
+        }
+
+        .logout-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #6cbf84;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+            .logout-link:hover {
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <a href="@Url.Action("Logout", "Home")" class="logout-link">Logout</a>
+        <div class="welcome-section">
+            <h2>Welcome, @Model.AccountHolderName!</h2>
+            <div class="account-info">
+                <label for="account">Account:</label>
+                <select id="account" class="form-control">
+                    @foreach (var item in Model.AccountNumber)
+                    {
+                        <option value="@item.Number">@item.Number</option>
+                    }
+                </select>
+            </div>
+            <div class="balance-info">
+                <label>BALANCE:</label>
+                <span class="balance-amount">$ <span id="balance-amount">@Model.AccountNumber.First().Balance</span> (CAD)</span>
+            </div>
+        </div>
+        <div class="transaction-section">
+            <form id="transaction-form" method="post">
+                <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" name="amount" class="form-control" value="1000" />
+                </div>
+                <div class="form-group">
+                    <label for="currency">Currency:</label>
+                    <select id="currency" name="currency" class="form-control">
+                        <option value="CAD">CAD</option>
+                        <option value="USD">USD</option>
+                        <option value="MXN">MXN</option>
+                        <option value="EURO">EURO</option>
+                    </select>
+                </div>
+                <input type="hidden" id="accountNumber" name="accountNumber" value="@Model.AccountNumber.First().Number" />
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-primary" onclick="submitForm('Withdraw')">Withdraw</button>
+                    <button type="button" class="btn btn-success" onclick="submitForm('Deposit')">Deposit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const accounts = @Html.Raw(JsonSerializer.Serialize(Model.AccountNumber));
+
+        document.getElementById('account').addEventListener('change', function () {
+            const selectedAccountNumber = this.value;
+            const account = accounts.find(acc => acc.Number == selectedAccountNumber);
+            if (account) {
+                document.getElementById('balance-amount').innerText = account.Balance.toFixed(2);
+                document.getElementById('accountNumber').value = account.Number;
+            }
+        });
+
+        function submitForm(action) {
+            const form = document.getElementById('transaction-form');
+            form.action = action === 'Deposit' ? '@Url.Action("Deposit", "Home")' : '@Url.Action("WithdrawFunds", "Home")';
+            form.submit();
+        }
+    </script>
+</body>
+</html>

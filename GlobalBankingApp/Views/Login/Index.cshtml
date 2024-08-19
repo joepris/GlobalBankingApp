@@ -1,7 +1,6 @@
 ﻿@model string
 @{
-    ViewData["Title"] = "Login";
-    Layout = null; // Optional: If you don't want to use the main layout for this view.
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -10,80 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .login-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-
-            .login-container h2 {
-                color: #FF6961;
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 24px;
-            }
-
-            .login-container label {
-                display: block;
-                margin-bottom: 5px;
-                font-weight: bold;
-            }
-
-            .login-container input[type="text"],
-            .login-container input[type="password"] {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 15px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-            }
-
-            .login-container input[type="checkbox"] {
-                margin-right: 5px;
-            }
-
-            .login-container .actions {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 20px;
-            }
-
-            .login-container button[type="submit"] {
-                width: 100%;
-                background-color: #FF6961;
-                color: white;
-                padding: 10px;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-                cursor: pointer;
-            }
-
-            .login-container .extra-options {
-                text-align: center;
-                margin-top: 10px;
-            }
-
-                .login-container .extra-options a {
-                    color: #FF6961;
-                    text-decoration: none;
-                    font-size: 14px;
-                }
-    </style>
+   
 </head>
 <body>
     <div class="login-container">
@@ -97,8 +23,9 @@
 
             <div class="actions">
                 <div>
-                    <input type="checkbox" id="remember" name="remember" />
-                    <label for="remember">Remember</label>
+                    <label for="remember">
+                        <input type="checkbox" id="remember" name="remember">
+                    Remember</label>
                 </div>
                 <a href="#">Forgot password?</a>
             </div>
